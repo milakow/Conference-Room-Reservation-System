@@ -1,10 +1,12 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reservation")
@@ -18,24 +20,38 @@ public class Reservation {
     @Column(unique = true)
     private String identifier;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "organization_id", columnDefinition = "bigint")
+    private Organization organization;
+
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "conferenceRoom_id", columnDefinition = "bigint")
+    private ConferenceRoom conferenceRoom;
 
     public Reservation(){
     }
 
-    public Reservation(String identifier, LocalDate startDate, LocalDate endDate) {
+    public Reservation(String identifier, LocalDateTime startDate, LocalDateTime endDate) {
         this.identifier = identifier;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public Reservation(long id, String identifier, LocalDate startDate, LocalDate endDate) {
+    public Reservation(long id, String identifier, LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.identifier = identifier;
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+//    public void compareDates(){
+//
+//    }
 
     public long getId() {
         return id;
@@ -53,19 +69,35 @@ public class Reservation {
         this.identifier = identifier;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    public ConferenceRoom getConferenceRoom() {
+        return conferenceRoom;
+    }
+
+    public void setConferenceRoom(ConferenceRoom conferenceRoom) {
+        this.conferenceRoom = conferenceRoom;
     }
 }

@@ -19,9 +19,10 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
-    public Optional<Reservation> getReservationById(long id){
-        return reservationRepository.findById(id);
-    }
+    public Reservation getReservationById(long id){
+        if (reservationRepository.existsById(id)) {
+            return reservationRepository.findById(id).get();
+        } else throw new IllegalArgumentException("Reservation with id " + id + " does not exist.");    }
 
     public void deleteReservation(long id){
         if (reservationRepository.existsById(id)) {
@@ -41,5 +42,5 @@ public class ReservationService {
             reservationRepository.save(updatedReservation);
         } else throw new IllegalArgumentException("Reservation with id " + id + " does not exist.");
 
-}
+    }
 }

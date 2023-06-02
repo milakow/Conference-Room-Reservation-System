@@ -23,7 +23,7 @@ public class ConferenceRoomController {
     }
 
     @GetMapping("/{id}")
-    public Optional<ConferenceRoom> getConferenceRoomById(@PathVariable long id){
+    public ConferenceRoom getConferenceRoomById(@PathVariable long id){
         return conferenceRoomService.getConferenceRoomById(id);
     }
 
@@ -31,6 +31,12 @@ public class ConferenceRoomController {
     @DeleteMapping("/{id}")
     public void deleteConferenceRoom(@PathVariable long id) {
         conferenceRoomService.deleteConferenceRoom(id);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("{reservationId}/addReservationToConferenceRoom/{conferenceRoomId}")
+    public void addReservationToConferenceRoom(@PathVariable long reservationId, @PathVariable long conferenceRoomId){
+        conferenceRoomService.addReservationToConferenceRoom(reservationId, conferenceRoomId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

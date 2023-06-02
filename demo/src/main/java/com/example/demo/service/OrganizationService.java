@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Organization;
+import com.example.demo.model.Reservation;
 import com.example.demo.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +15,16 @@ public class OrganizationService {
     @Autowired
     OrganizationRepository organizationRepository;
 
+    @Autowired
+    ReservationService reservationService;
+
     public List<Organization> listAllOrganizations(){
         return organizationRepository.findAll();
     };
 
-    public Optional<Organization> getOrganizationById(long id){
+    public Organization getOrganizationById(long id){
         if (organizationRepository.existsById(id)) {
-            return organizationRepository.findById(id);
+            return organizationRepository.findById(id).get();
         } else throw new IllegalArgumentException("Organization with id " + id + " does not exist.");
     }
 
@@ -28,6 +32,13 @@ public class OrganizationService {
         if (organizationRepository.existsById(id)) {
             organizationRepository.deleteById(id);
         } else throw new IllegalArgumentException("Organization with id " + id + " does not exist.");
+    }
+
+    public void addReservationToOrganization(long reservationId, long organizationId){
+        Organization organization = getOrganizationById(organizationId);
+        Reservation reservation = reservationService.getReservationById(reservationId);
+        reservation.setOrganization(organization);
+        organizationRepository.save(organization);
     }
 
     public void addOrganization(Organization organization){

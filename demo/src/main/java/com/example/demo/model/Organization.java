@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
 @Entity
 @Table(name = "organization")
 public class Organization {
@@ -13,10 +15,13 @@ public class Organization {
     @Column(columnDefinition = "serial")
     private long id;
 
-    @Size(min = 2, max = 20)
-    @NotBlank
+    @Size(min = 2, max = 20, message = "Name length should be between 2 and 20 characters.")
+    @NotBlank(message = "Name cannot be blank.")
     @Column(unique = true)
     private String name;
+
+    @OneToMany(mappedBy = "organization")
+    List<Reservation> reservationList;
 
     public Organization() {
     }
@@ -44,5 +49,13 @@ public class Organization {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 }

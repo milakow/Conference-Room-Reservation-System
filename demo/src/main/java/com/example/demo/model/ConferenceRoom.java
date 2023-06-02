@@ -1,10 +1,14 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.List;
 
 @Entity
 @Table(name = "conferenceRoom")
@@ -31,7 +35,11 @@ public class ConferenceRoom {
 
     private boolean availability;
 
+    @Embedded
     private NumberOfPlaces numberOfPlaces;
+
+    @OneToMany(mappedBy = "conferenceRoom")
+    List<Reservation> reservationList;
 
     public ConferenceRoom(){}
 
@@ -98,5 +106,13 @@ public class ConferenceRoom {
 
     public void setNumberOfPlaces(NumberOfPlaces numberOfPlaces) {
         this.numberOfPlaces = numberOfPlaces;
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 }

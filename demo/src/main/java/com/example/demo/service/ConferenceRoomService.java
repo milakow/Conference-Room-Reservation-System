@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.ConferenceRoom;
 import com.example.demo.model.Organization;
+import com.example.demo.model.Reservation;
 import com.example.demo.repository.ConferenceRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,16 @@ import java.util.Optional;
 public class ConferenceRoomService {
     @Autowired
     ConferenceRoomRepository conferenceRoomRepository;
+    @Autowired
+    ReservationService reservationService;
 
     public List<ConferenceRoom> listAllConferenceRooms(){
         return conferenceRoomRepository.findAll();
     };
 
-    public Optional<ConferenceRoom> getConferenceRoomById(long id){
+    public ConferenceRoom getConferenceRoomById(long id){
         if (conferenceRoomRepository.existsById(id)) {
-            return conferenceRoomRepository.findById(id);
+            return conferenceRoomRepository.findById(id).get();
         } else throw new IllegalArgumentException("Conference room with id " + id + " does not exist.");
     }
 
@@ -28,6 +31,12 @@ public class ConferenceRoomService {
         if (conferenceRoomRepository.existsById(id)) {
             conferenceRoomRepository.deleteById(id);
         } else throw new IllegalArgumentException("Conference room with id " + id + " does not exist.");
+    }
+    public void addReservationToConferenceRoom(long reservationId, long conferenceRoomId){
+        ConferenceRoom conferenceRoom = getConferenceRoomById(conferenceRoomId);
+        Reservation reservation = reservationService.getReservationById(reservationId);
+        reservation.setConferenceRoom(conferenceRoom);
+        conferenceRoomRepository.save(conferenceRoom);
     }
 
     public void addConferenceRoom(ConferenceRoom conferenceRoom){

@@ -23,7 +23,7 @@ public class ReservationController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Reservation> getReservationById(@PathVariable long id){
+    public Reservation getReservationById(@PathVariable long id){
         return reservationService.getReservationById(id);
     }
 

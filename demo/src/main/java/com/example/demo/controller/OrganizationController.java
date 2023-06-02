@@ -22,7 +22,7 @@ public class OrganizationController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Organization> getOrganizationById(@PathVariable long id){
+    public Organization getOrganizationById(@PathVariable long id){
         return organizationService.getOrganizationById(id);
     }
 
@@ -30,6 +30,12 @@ public class OrganizationController {
     @DeleteMapping("/{id}")
     public void deleteOrganization(@PathVariable long id) {
         organizationService.deleteOrganization(id);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("{reservationId}/addReservationToOrganization/{organizationId}")
+    public void addReservationToOrganization(@PathVariable long reservationId, @PathVariable long organizationId){
+        organizationService.addReservationToOrganization(reservationId, organizationId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
