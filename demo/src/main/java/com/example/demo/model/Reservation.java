@@ -15,8 +15,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "serial")
     private long id;
-    @Size(min = 2, max = 20)
-    @NotBlank
+    @Size(min = 2, max = 20, message = "Reservation identifier length should be between 2 and 20 characters.")
+    @NotBlank(message = "Reservation identifier cannot be blank.")
     @Column(unique = true)
     private String identifier;
 

@@ -78,7 +78,6 @@ class OrganizationServiceTest {
         Organization result = organizationService.getOrganizationById(id);
 
         //then
-//        assertEquals(result, organization1);
         verify(organizationRepository).existsById(id);
         verify(organizationRepository).findById(id);
     }

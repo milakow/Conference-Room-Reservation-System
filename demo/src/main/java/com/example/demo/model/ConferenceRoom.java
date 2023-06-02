@@ -19,18 +19,18 @@ public class ConferenceRoom {
     @Column(columnDefinition = "serial")
     private long id;
 
-    @Size(min = 2, max = 20)
-    @NotBlank
+    @Size(min = 2, max = 20, message = "Conference room name length should be between 2 and 20 characters.")
+    @NotBlank(message = "Conference room name cannot be blank.")
     @Column(unique = true)
     private String name;
 
-    @Size(min = 2, max = 20)
-    @NotBlank
+    @Size(min = 2, max = 20, message = "Conference room identifier length should be between 2 and 20 characters.")
+    @NotBlank(message = "Conference room identifier cannot be blank.")
     @Column(unique = true)
     private String identifier;
 
-    @Min(0)
-    @Max(10)
+    @Min(value = 0, message = "Level value must be at least 0.")
+    @Max(value = 10, message = "Level value must be max 10.")
     private int level;
 
     private boolean availability;
