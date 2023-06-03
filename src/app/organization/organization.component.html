@@ -1,0 +1,92 @@
+<!-- <p>organization works!</p>
+<h2>List of Organizations</h2>
+<ul>
+  <li *ngFor="let organization of organizations">
+    {{ organization.name }}
+  </li>
+</ul> -->
+
+
+<div class="container">
+  <div class="card">
+    <h3 class="text-center">Organization List</h3>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+                <tr>
+                  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Actions</th>
+                </tr>
+          </thead>
+          <tbody>
+                <tr *ngFor="let organization of organizations">
+                  <td>{{ organization.id }}</td>
+                  <td>{{ organization.name }}</td>
+                  <td>
+                    <button class="btn btn-danger" (click)="deleteOrganization(organization.id)">Delete</button>
+                    <!-- <button type="submit" class="btn btn-primary" (click)="updateOrganization(updateOrganization)">Update Organization</button> -->
+                  </td>
+                </tr>
+          </tbody>
+        </table>
+      </div>  
+    </div>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <!-- <form *ngIf="isUpdating" (ngSubmit)="updateOrganization()"> -->
+    <form (ngSubmit)="updateOrganization(updateOrganizationId, updatedName)">
+      <h4>Editing organization: </h4>
+      <p>Modify the name of the organization and click the button</p>
+      <div class="form-group">
+        <label for="organizationId">ID:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="organizationId"
+          [(ngModel)]="updateOrganizationId"
+          name="organizationId"
+          required
+        />
+        </div>
+        <p></p>
+        <div class="form-group">
+          <label for="updatedName">New Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="updateName"
+            [(ngModel)]="updatedName"
+            name="updateName"
+            required
+          />
+      </div>
+      <p></p>
+      <button type="submit" class="btn btn-primary">Update Organization</button>
+      <p></p>
+    </form>
+    <!-- <form *ngIf="!isUpdating" (ngSubmit)="createOrganization()"> -->
+    <form (ngSubmit)="createOrganization()">
+
+      <h4>Adding organization: </h4>
+      <p>Provide the name of the organization and click the button</p>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          [(ngModel)]="newOrganization.name"
+          name="name"
+          required
+        />
+      </div>
+      <p></p>
+      <button type="submit" class="btn btn-primary">Add Organization</button>
+    </form>
+  </div>  
+</div>
+
