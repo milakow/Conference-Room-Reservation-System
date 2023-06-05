@@ -22,6 +22,7 @@ export class OrganizationService {
   private deleteOrganziationLink = 'http://localhost:8080/organization/';
   private addOrganziationLink = 'http://localhost:8080/organization/new';
   private updateOrganziationLink = 'http://localhost:8080/organization/update/';
+  private apiUrl = 'http://localhost:8080/organization';
 
 
 
@@ -37,6 +38,11 @@ export class OrganizationService {
 
   public deleteOrganization(id: number): Observable<any> {
     return this.http.delete(this.deleteOrganziationLink + id, httpOptions)
+  }
+
+  public addReservationToOrganization(reservationId: number, organizationId: number){
+    const url = `${this.apiUrl}/${reservationId}/addReservationToOrganization/${organizationId}`;
+    return this.http.post<void>(url, httpOptions);
   }
 
   public createOrganization(organization: Organization): Observable<void> {

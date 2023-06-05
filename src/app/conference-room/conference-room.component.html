@@ -1,0 +1,205 @@
+<!-- <h2>List of conference-room</h2>
+<ul>
+  <li *ngFor="let conference-room of conference-rooms">
+    {{ conference-room.name }}
+  </li>
+</ul> -->
+
+<div class="container">
+    <div class="card">
+        <h3 class="text-center">Conference Rooms List</h3>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Identifier</th>
+                            <th>Level</th>
+                            <th>Availability</th>
+                            <th>Number Of Sitting Places</th>
+                            <th>Number Of Standing Places</th>
+                            <th>Reservation List</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let conferenceRoom of conferenceRooms">
+                            <td>{{conferenceRoom.id}}</td>
+                            <td>{{conferenceRoom.name}}</td>
+                            <td>{{conferenceRoom.identifier}}</td>
+                            <td>{{conferenceRoom.level}}</td>
+                            <td>{{conferenceRoom.availability}}</td>
+                            <td>{{conferenceRoom.numberOfPlaces.sitting}}</td>
+                            <td>{{conferenceRoom.numberOfPlaces.standing}}</td>
+                            <td>{{conferenceRoom.reservationList | json}}</td>
+                            <td>
+                                <button class="btn btn-danger" (click)="deleteConferenceRoom(conferenceRoom.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>    
+            </div>
+        </div>  
+        <form (ngSubmit)="createConferenceRoom()">
+            <h4>Adding conference room: </h4>
+            <p>Provide the data of the conference room and click the button</p>
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                [(ngModel)]="newConferenceRoom.name"
+                name="name"
+                required
+              />
+            </div>
+            <div class="form-group">
+                <label for="identifier">Identifier:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identifier"
+                  [(ngModel)]="newConferenceRoom.identifier"
+                  name="identifier"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="level">Level:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="level"
+                  [(ngModel)]="newConferenceRoom.level"
+                  name="level"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="availability">Availability:</label>
+                <input
+                  type="boolean"
+                  class="form-control"
+                  id="availability"
+                  [(ngModel)]="newConferenceRoom.availability"
+                  name="availability"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="numberOfSittingPlaces">Number of sitting places:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="numberOfSittingPlaces"
+                  [(ngModel)]="newConferenceRoom.numberOfPlaces.sitting"
+                  name="numberOfSittingPlaces"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="numberOfStandingPlaces">Number of standing places:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="numberOfStandingPlaces"
+                  [(ngModel)]="newConferenceRoom.numberOfPlaces.standing"
+                  name="numberOfStandingPlaces"
+                  required
+                />
+            </div>
+            <p></p>
+            <button type="submit" class="btn btn-primary">Add conference room</button>
+            <p></p>
+        </form>
+        <form (ngSubmit)="updateConferenceRoom(updateConferenceRoomId, updatedName, updatedIdentifier, updatedLevel, updatedAvailability, updatedNumberOfSittingPlaces, updatedNumberOfStandingPlaces)">
+            <h4>Editing conference room: </h4>
+            <p>Modify the date of the conference room and click the button</p>
+            <div class="form-group">
+              <label for="conferenceRoomId">ID:</label>
+              <input
+                type="number"
+                class="form-control"
+                id="conferenceRoomId"
+                [(ngModel)]="updateConferenceRoomId"
+                name="conferenceRoomId"
+                required
+              />
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label for="updatedName">Updated Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="updatedName"
+                  [(ngModel)]="updatedName"
+                  name="updateName"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="updatedIdentifier">Updated Identifier:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="updatedIdentifier"
+                  [(ngModel)]="updatedIdentifier"
+                  name="updatedIdentifier"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="updatedLevel">Updated Level:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="updatedLevel"
+                  [(ngModel)]="updatedLevel"
+                  name="updatedLevel"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="updatedAvailability">Updated Availability:</label>
+                <input
+                  type="boolean"
+                  class="form-control"
+                  id="updatedAvailability"
+                  [(ngModel)]="updatedAvailability"
+                  name="updatedAvailability"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="updatedNumberOfSittingPlaces">Updated Number of Sitting Places:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="updatedNumberOfSittingPlaces"
+                  [(ngModel)]="updatedNumberOfSittingPlaces"
+                  name="updatedNumberOfSittingPlaces"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="updatedNumberOfStandingPlaces">Updated Number of Standing Places:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="updatedNumberOfStandingPlaces"
+                  [(ngModel)]="updatedNumberOfStandingPlaces"
+                  name="updatedNumberOfStandingPlaces"
+                  required
+                />
+            </div>
+            <p></p>
+            <button type="submit" class="btn btn-primary">Update Conference Room</button>
+            <p></p>
+        </form>
+    </div>
+</div>

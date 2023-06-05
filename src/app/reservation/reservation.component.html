@@ -1,0 +1,146 @@
+<div class="container">
+    <h3 class="text-center">Reservation List</h3>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                            <th>ID</th>
+                            <th>Identifier</th>
+                            <th>Start date</th>
+                            <th>End Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reservation of reservationList">
+                            <td>{{reservation.id}}</td>
+                            <td>{{reservation.identifier}}</td>
+                            <td>{{reservation.startDate}}</td>
+                            <td>{{reservation.endDate}}</td>
+                            <td>
+                                <button class="btn btn-danger" (click)="deleteReservation(reservation.id)">Delete</button>
+                                <p></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form (ngSubmit)="createReservation()">
+            <h4>Adding reservations: </h4>
+            <p>Provide the data of the reservation and click the button</p>
+            <div class="form-group">
+                <label for="conferenceRoomId">Conference Room Id:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="conferenceRoomId"
+                  [(ngModel)]="conferenceRoomId"
+                  name="conferenceRoomId"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="identifier">Identifier:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="identifier"
+                  [(ngModel)]="identifier"
+                  (ngModelChange)="addIdentifier($event)"
+                  name="identifier"
+                  required
+                />
+            </div>
+            <div>
+                <label for="startDate">Start date:</label>
+                <input type="datetime-local"
+                name="startDate"
+                [(ngModel)]="startDate" 
+                (ngModelChange)="addStartDate($event)"/>
+            </div>
+            <div>
+                <label for="endtDate">End date:</label>
+                <input type="datetime-local"
+                name="endDate"
+                [(ngModel)]="endDate" 
+                (ngModelChange)="addEndDate($event)"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Add reservation</button>
+            <p></p>
+        </form>    
+        <form (ngSubmit)="addReservationToOrganization(reservationId, organizationId)">
+                <h4>Connect reservation with organization: </h4>
+                <p>Provide the id of the reservation and organization and click the button</p>
+                <div class="form-group">
+                    <label for="reservationId">Reservation Id:</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="reservationId"
+                      [(ngModel)]="reservationId"
+                      name="reservationId"
+                      required
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="organizationId">Organization Id:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="organizationId"
+                      [(ngModel)]="organizationId"
+                      name="organizationId"
+                      required
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary">Connect reservation and organization</button>
+        </form> 
+        <form (ngSubmit)="updateReservation(updatedReservationId, updatedIdentifier, updatedStartDate, updatedEndDate)">
+            <h4>Editing reservation: </h4>
+            <p>Modify the date of the reservation and click the button</p>
+            <div class="form-group">
+                <label for="reservationId">ID:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="reservationId"
+                  [(ngModel)]="updatedReservationId"
+                  name="reservationId"
+                  required
+                />
+            </div>
+            <div class="form-group">
+                <label for="updatedIdentifier">Updated Identifier:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="updatedIdentifier"
+                  [(ngModel)]="updatedIdentifier"
+                  name="updatedIdentifier"
+                  required
+                />
+            </div>
+            <div>
+                <label for="updatedStartDate">Updated start date:</label>
+                <input type="datetime-local"
+                name="updatedStartDate"
+                [(ngModel)]="updatedStartDate" 
+                (ngModelChange)="addStartDate($event)"/>
+            </div>
+            <div>
+                <label for="updatedEndDate">Updated end date:</label>
+                <input type="datetime-local"
+                name="updatedEndDate"
+                [(ngModel)]="updatedEndDate" 
+                (ngModelChange)="addEndDate($event)"/>
+            </div>
+            <p></p>
+            <button type="submit" class="btn btn-primary">Update Conference Room</button>
+            <p></p>
+        </form>   
+    </div>
+</div>
