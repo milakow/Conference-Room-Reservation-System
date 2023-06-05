@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,7 +32,7 @@ public class Reservation {
     @JoinColumn(name = "conferenceRoom_id", columnDefinition = "bigint")
     private ConferenceRoom conferenceRoom;
 
-    public Reservation(){
+    public Reservation() {
     }
 
     public Reservation(String identifier, LocalDateTime startDate, LocalDateTime endDate) {

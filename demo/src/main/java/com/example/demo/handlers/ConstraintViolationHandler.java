@@ -19,3 +19,12 @@ public class ConstraintViolationHandler {
         return sb.toString();
     }
 }
+
+@RestControllerAdvice
+class IllegalArgumentHandler{
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalException(IllegalArgumentException e) {
+        return e.getMessage();
+    }
+}

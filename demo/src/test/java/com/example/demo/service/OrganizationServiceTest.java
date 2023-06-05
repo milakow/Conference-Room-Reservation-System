@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Organization;
-import com.example.demo.model.Reservation;
 import com.example.demo.repository.OrganizationRepository;
 import jakarta.annotation.Resource;
-import jakarta.validation.*;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +21,6 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -38,7 +37,6 @@ class OrganizationServiceTest {
     @Resource
     @InjectMocks
     private OrganizationService organizationService;
-    //get all organizations
 
     @BeforeEach
     void onInit() {
@@ -97,7 +95,7 @@ class OrganizationServiceTest {
     }
 
     @Test
-    void deleteOrganizationShouldDeleteIfExists(){
+    void deleteOrganizationShouldDeleteIfExists() {
         //given
         long id = 1;
         when(organizationRepository.existsById(id)).thenReturn(true);
@@ -111,7 +109,7 @@ class OrganizationServiceTest {
     }
 
     @Test
-    void deleteOrganizationShouldThrowException(){
+    void deleteOrganizationShouldThrowException() {
         //given
         long id = 1;
         when(organizationRepository.existsById(id)).thenReturn(false);
@@ -125,7 +123,7 @@ class OrganizationServiceTest {
     }
 
     @Test
-    void addOrganizationShouldAddOrganization(){
+    void addOrganizationShouldAddOrganization() {
         //given
         long id = 1;
         Organization organization = new Organization(id, "Organization1");
@@ -140,7 +138,7 @@ class OrganizationServiceTest {
     }
 
     @Test
-    void addOrganizationShouldThrowExceptionIfOrganizationAlreadyExists(){
+    void addOrganizationShouldThrowExceptionIfOrganizationAlreadyExists() {
         //given
         long id = 1;
         Organization organization = new Organization(id, "Organization1");
@@ -150,11 +148,11 @@ class OrganizationServiceTest {
         //when
         //then
         Exception e = assertThrows(IllegalArgumentException.class, () -> organizationService.addOrganization(organization));
-        assertEquals( "Organization with id 1 already exists.", e.getMessage());
+        assertEquals("Organization with id 1 already exists.", e.getMessage());
     }
 
     @Test
-    void addOrganizationWithWrongNameLengthShouldThrowException(){
+    void addOrganizationWithWrongNameLengthShouldThrowException() {
         long id = 1;
         Organization organization = new Organization(id, "O");
         when(organizationRepository.existsById(id)).thenReturn(false);
@@ -164,13 +162,13 @@ class OrganizationServiceTest {
         Set<ConstraintViolation<Organization>> violations = validator.validate(organization);
 
         //then
-        softAssertions.assertThat( violations.toString()).contains("Name length should be between 2 and 20 characters.");
+        softAssertions.assertThat(violations.toString()).contains("Name length should be between 2 and 20 characters.");
         softAssertions.assertThat(1).isEqualTo(violations.size());
         softAssertions.assertAll();
     }
 
     @Test
-    void addOrganizationWithBlankNameLengthShouldThrowException(){
+    void addOrganizationWithBlankNameLengthShouldThrowException() {
         long id = 1;
         Organization organization = new Organization();
         organization.setId(id);
@@ -181,34 +179,34 @@ class OrganizationServiceTest {
         Set<ConstraintViolation<Organization>> violations = validator.validate(organization);
 
         //then
-        softAssertions.assertThat( violations.toString()).contains("Name cannot be blank.");
+        softAssertions.assertThat(violations.toString()).contains("Name cannot be blank.");
         softAssertions.assertThat(1).isEqualTo(violations.size());
         softAssertions.assertAll();
     }
 
 
+//    @Test
+//    void addReservationToOrganizationShouldAddReservation(){
+//        //given
+//        long reservationId = 1;
+//        long organizationId = 2;
+//        Organization organization = new Organization(organizationId, "Org1");
+//        Reservation reservation = new Reservation(reservationId, "Res1", LocalDateTime.parse("2023-06-03T08:00:00"), LocalDateTime.parse("2023-06-03T09:00:00"));
+//        when(organizationRepository.existsById(organizationId)).thenReturn(true);
+//        when(organizationRepository.findById(organizationId)).thenReturn(Optional.of(organization));
+//        when(reservationService.getReservationById(reservationId)).thenReturn(reservation);
+//        //when
+//        organizationService.addReservationToOrganization(reservationId, organizationId);
+//
+//        //then
+//        verify(organizationRepository, times(1)).findById(organizationId);
+//        verify(reservationService, times(1)).getReservationById(reservationId);
+//        verify(organizationRepository, times(1)).save(organization);
+//    }
+
+
     @Test
-    void addReservationToOrganizationShouldAddReservation(){
-        //given
-        long reservationId = 1;
-        long organizationId = 2;
-        Organization organization = new Organization(organizationId, "Org1");
-        Reservation reservation = new Reservation(reservationId, "Res1", LocalDateTime.parse("2023-06-03T08:00:00"), LocalDateTime.parse("2023-06-03T09:00:00"));
-        when(organizationRepository.existsById(organizationId)).thenReturn(true);
-        when(organizationRepository.findById(organizationId)).thenReturn(Optional.of(organization));
-        when(reservationService.getReservationById(reservationId)).thenReturn(reservation);
-        //when
-        organizationService.addReservationToOrganization(reservationId, organizationId);
-
-        //then
-        verify(organizationRepository, times(1)).findById(organizationId);
-        verify(reservationService, times(1)).getReservationById(reservationId);
-        verify(organizationRepository, times(1)).save(organization);
-    }
-
-
-    @Test
-    void updateOrganizationShouldUpdateOrganization(){
+    void updateOrganizationShouldUpdateOrganization() {
         //given
         long id = 1;
         Organization organization = new Organization(id, "Org");

@@ -1,12 +1,10 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
 
@@ -41,7 +39,8 @@ public class ConferenceRoom {
     @OneToMany(mappedBy = "conferenceRoom")
     List<Reservation> reservationList;
 
-    public ConferenceRoom(){}
+    public ConferenceRoom() {
+    }
 
     public ConferenceRoom(String name, String identifier, int level, boolean availability, NumberOfPlaces numberOfPlaces) {
         this.name = name;
