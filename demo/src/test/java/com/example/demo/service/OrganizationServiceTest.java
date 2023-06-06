@@ -56,7 +56,7 @@ class OrganizationServiceTest {
 
         //when
         List<Organization> result = organizationService.listAllOrganizations();
-//soft assertions
+
         //then
         assertEquals(3, result.size());
         assertEquals("Organization2", result.get(1).getName());
@@ -183,27 +183,6 @@ class OrganizationServiceTest {
         softAssertions.assertThat(1).isEqualTo(violations.size());
         softAssertions.assertAll();
     }
-
-
-//    @Test
-//    void addReservationToOrganizationShouldAddReservation(){
-//        //given
-//        long reservationId = 1;
-//        long organizationId = 2;
-//        Organization organization = new Organization(organizationId, "Org1");
-//        Reservation reservation = new Reservation(reservationId, "Res1", LocalDateTime.parse("2023-06-03T08:00:00"), LocalDateTime.parse("2023-06-03T09:00:00"));
-//        when(organizationRepository.existsById(organizationId)).thenReturn(true);
-//        when(organizationRepository.findById(organizationId)).thenReturn(Optional.of(organization));
-//        when(reservationService.getReservationById(reservationId)).thenReturn(reservation);
-//        //when
-//        organizationService.addReservationToOrganization(reservationId, organizationId);
-//
-//        //then
-//        verify(organizationRepository, times(1)).findById(organizationId);
-//        verify(reservationService, times(1)).getReservationById(reservationId);
-//        verify(organizationRepository, times(1)).save(organization);
-//    }
-
 
     @Test
     void updateOrganizationShouldUpdateOrganization() {

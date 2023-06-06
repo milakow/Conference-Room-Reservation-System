@@ -31,15 +31,6 @@ public class ConferenceRoomService {
         } else throw new IllegalArgumentException("Conference room with id " + id + " does not exist.");
     }
 
-    public void addReservationToConferenceRoom(long reservationId, long conferenceRoomId) {
-        ConferenceRoom conferenceRoom = getConferenceRoomById(conferenceRoomId);
-        Reservation reservation = reservationService.getReservationById(reservationId);
-        if (conferenceRoom.isAvailability()) {
-            reservation.setConferenceRoom(conferenceRoom);
-            conferenceRoomRepository.save(conferenceRoom);
-        } else
-            throw new IllegalArgumentException("Conference room with id " + conferenceRoomId + " is not available for reservation.");
-    }
 
     public void addConferenceRoom(ConferenceRoom conferenceRoom) {
         if (!conferenceRoomRepository.existsById(conferenceRoom.getId())) {

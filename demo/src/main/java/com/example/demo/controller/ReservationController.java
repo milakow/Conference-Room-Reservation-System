@@ -33,8 +33,8 @@ public class ReservationController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/new/{conferenceRoomId}")
-    public void addReservation(@RequestBody Reservation reservation, @PathVariable long conferenceRoomId) {
-        reservationService.addReservation(reservation, conferenceRoomId);
+    public void addReservationToSpecificConferenceRoom(@RequestBody Reservation reservation, @PathVariable long conferenceRoomId) {
+        reservationService.addReservationToSpecificConferenceRoom(reservation, conferenceRoomId);
     }
 
     @PutMapping("/update/{id}")

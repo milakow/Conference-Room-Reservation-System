@@ -43,7 +43,7 @@ public class ReservationService {
         } else throw new IllegalArgumentException("Reservation with id " + id + " does not exist.");
     }
 
-    public void addReservation(Reservation reservationToSet, long conferenceRoomId) {
+    public void addReservationToSpecificConferenceRoom(Reservation reservationToSet, long conferenceRoomId) {
         Reservation reservation = checkReservation(reservationToSet);
         ConferenceRoom conferenceRoom = conferenceRoomService.getConferenceRoomById(conferenceRoomId);
         if (conferenceRoom.isAvailability()){
